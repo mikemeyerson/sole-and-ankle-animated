@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import styled from 'styled-components/macro';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
+import React from "react";
+import styled, { keyframes } from "styled-components/macro";
+import { DialogOverlay, DialogContent } from "@reach/dialog";
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import { WEIGHTS } from "../../constants";
 
-import UnstyledButton from '../UnstyledButton';
-import Icon from '../Icon';
-import VisuallyHidden from '../VisuallyHidden';
+import UnstyledButton from "../UnstyledButton";
+import Icon from "../Icon";
+import VisuallyHidden from "../VisuallyHidden";
 
+// TODO: reduce-motion media queries
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
@@ -19,12 +20,24 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
         </CloseButton>
         <Filler />
         <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink style={{ "--n": 1 }} href="/sale">
+            Sale
+          </NavLink>
+          <NavLink style={{ "--n": 2 }} href="/new">
+            New&nbsp;Releases
+          </NavLink>
+          <NavLink style={{ "--n": 3 }} href="/men">
+            Men
+          </NavLink>
+          <NavLink style={{ "--n": 4 }} href="/women">
+            Women
+          </NavLink>
+          <NavLink style={{ "--n": 5 }} href="/kids">
+            Kids
+          </NavLink>
+          <NavLink style={{ "--n": 6 }} href="/collections">
+            Collections
+          </NavLink>
         </Nav>
         <Footer>
           <SubLink href="/terms">Terms and Conditions</SubLink>
@@ -36,6 +49,16 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
 const Overlay = styled(DialogOverlay)`
   position: fixed;
   top: 0;
@@ -45,7 +68,38 @@ const Overlay = styled(DialogOverlay)`
   background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+
+  animation: ${fadeIn} 300ms;
+  animation-fill-mode: both;
+
+  @media (prefers-reduced-motion: no-preference) {
+    perspective: 2000px;
+  }
 `;
+
+const closeDoor = keyframes`
+from {
+    transform-origin: 100% 50%;
+    transform: rotate3d(0, -1, 0, 90deg);
+  }
+
+  to {
+    transform-origin: 100% 50%;
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+`;
+
+/*
+const slideLeft = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+`;
+*/
 
 const Content = styled(DialogContent)`
   background: white;
@@ -54,6 +108,14 @@ const Content = styled(DialogContent)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+
+  animation: ${fadeIn} 200ms;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${closeDoor} 300ms ease-out;
+    animation-delay: 50ms;
+    animation-fill-mode: both;
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -78,6 +140,14 @@ const NavLink = styled.a`
 
   &:first-of-type {
     color: var(--color-secondary);
+  }
+
+  animation: ${fadeIn};
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation-delay: calc(200ms + var(--n) * 50ms);
   }
 `;
 
