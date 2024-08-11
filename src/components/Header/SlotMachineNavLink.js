@@ -29,32 +29,33 @@ const Link = styled.a`
   }
 `;
 
-const DefaultText = styled.span`
-  display: inline-block;
+const Text = styled.span`
   transition: var(--text-transition);
-  transform: translateY(0);
+  transform: translateY(var(--translate-from));
 
   ${Link}:hover & {
     text-decoration: underline;
 
     @media (prefers-reduced-motion: no-preference) {
       text-decoration: none;
-      transform: translateY(-100%);
+      transform: translateY(var(--translate-to));
     }
   }
 `;
 
-const HoverText = styled.span`
+const DefaultText = styled(Text)`
+  display: inline-block;
+  --translate-from: 0;
+  --translate-to: -100%;
+`;
+
+const HoverText = styled(Text)`
   display: none;
   font-weight: ${WEIGHTS.bold};
   inset: 0;
   position: absolute;
-  transform: translateY(100%);
-  transition: var(--text-transition);
-
-  ${Link}:hover & {
-    transform: translateY(0);
-  }
+  --translate-from: 100%;
+  --translate-to: 0;
 
   @media (prefers-reduced-motion: no-preference) {
     display: unset;

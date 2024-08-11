@@ -93,14 +93,16 @@ const Image = styled.img`
   transform-origin: 50% 75%;
   transition-property: filter, transform;
   transition-timing-function: ease-in;
+  will-change: transform;
+  filter: brightness(90%);
 
-  ${ImageWrapper}:hover & {
+  ${Link}:hover &, ${Link}:focus & {
     transition: filter var(--hover-entrance-animation-duration) ease-out;
-    filter: brightness(0.9);
+    filter: brightness(100%);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    ${ImageWrapper}:hover & {
+    ${Link}:hover &, ${Link}:focus & {
       filter: none;
       transition: transform var(--hover-entrance-animation-duration) ease-out;
       transform: scale(1.1);
